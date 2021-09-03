@@ -16,7 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -28,8 +27,13 @@ public class Produto implements Serializable {
 	private Integer id;
 	private String nome;
 	private Double preco;
-
-	@JsonBackReference
+	
+	/*
+	 * Essa anotação é utilizada em atributos que devem ser ignorados na hora do
+	 * mapeamento. Isso foi necessário pois caso o atributo não fosse ignorado, iria
+	 * gerar uma serialização cíclica.
+	 */
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	List<Categoria> categorias = new ArrayList<>();
