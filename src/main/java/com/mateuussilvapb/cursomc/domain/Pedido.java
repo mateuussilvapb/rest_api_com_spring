@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,11 +26,22 @@ public class Pedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	/*
+	 * No resultado JSON, essa anotação formata o resultado para o que for passado
+	 * como parâmetro para o pattern
+	 */
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date instante;
 
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
 
+	/*
+	 * Impede a Serialização Cíclica.
+	 */
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;

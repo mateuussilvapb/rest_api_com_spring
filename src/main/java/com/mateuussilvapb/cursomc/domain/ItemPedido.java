@@ -6,10 +6,18 @@ import java.util.Objects;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	/*
+	 * Essa anotação é utilizada em atributos que devem ser ignorados na hora do
+	 * mapeamento. Isso foi necessário pois caso o atributo não fosse ignorado, iria
+	 * gerar uma serialização cíclica.
+	 */
+	@JsonIgnore
 	/*
 	 * Como a classe ItemPedido é uma classe que é composta pelas informações das
 	 * classes Pedido e Produto, sua chave é composta pelas chaves (nesse caso,
@@ -69,6 +77,12 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 
+	/*
+	 * Essa anotação é utilizada em atributos que devem ser ignorados na hora do
+	 * mapeamento. Isso foi necessário pois caso o atributo não fosse ignorado, iria
+	 * gerar uma serialização cíclica.
+	 */
+	@JsonIgnore
 	public Pedido getPedido() {
 		return this.id.getPedido();
 	}
